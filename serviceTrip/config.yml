@@ -1,1 +1,3 @@
-something: something
+url: "jdbc:mysql://localhost/serviceTrip?useUnicode=yes&characterEncoding=utf8"
+user: serviceTrip
+password: serviceTrip

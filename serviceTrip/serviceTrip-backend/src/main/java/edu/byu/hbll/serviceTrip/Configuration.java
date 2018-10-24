@@ -1,6 +1,7 @@
 package edu.byu.hbll.serviceTrip;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import edu.byu.hbll.json.YamlLoader;
 import java.io.File;
 import java.io.IOException;
@@ -10,8 +11,10 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /** Configuration manager for this application. */
 @Singleton
@@ -31,6 +34,8 @@ public class Configuration {
   private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
 
   // TODO: Define additional class properties/members as needed here.
+
+  private BasicDataSource ds;
 
   /**
    * Loads configuration data read from the config file(s) listed in the {@link #CONFIGS_PROPERTY}
@@ -59,7 +64,6 @@ public class Configuration {
   /**
    * Loads configuration data read from the given YAML config file(s).
    *
-   * @param configFiles the files from which to read configuration
    * @throws IOException if the given files are not readable or cannot be parsed as YAML
    */
   public void loadConfig() throws IOException {
@@ -74,9 +78,25 @@ public class Configuration {
       }
     }
 
+
+    String username = config.path("username").asText();
+    String password = config.path("password").asText();
+    String url = config.path("url").asText();
+
+    ds = new BasicDataSource();
+    ds.setDriverClassName("com.mysql.jdbc.Driver");
+    ds.setUrl(url);
+    ds.setUsername(username);
+    ds.setPassword(password);
+
     /*TODO: After creating a new project, add the application-specific instructions to this method needed to
     process your config data and make it available to the rest of your application. You should not need to
     modify the postConstruct() method, which simply calls this method using the config files listed in the
     system property identified by CONFIGS_PROPERTY.*/
   }
+
+  public BasicDataSource getDs(){
+    return ds;
+  }
+
 }
