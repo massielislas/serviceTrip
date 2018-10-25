@@ -79,14 +79,14 @@ public class Configuration {
     }
 
 
-    String username = config.path("username").asText();
+    String user = config.path("user").asText();
     String password = config.path("password").asText();
     String url = config.path("url").asText();
 
     ds = new BasicDataSource();
     ds.setDriverClassName("com.mysql.jdbc.Driver");
     ds.setUrl(url);
-    ds.setUsername(username);
+    ds.setUsername(user);
     ds.setPassword(password);
 
     /*TODO: After creating a new project, add the application-specific instructions to this method needed to
