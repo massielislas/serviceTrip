@@ -1,3 +1,20 @@
 url: "jdbc:mysql://localhost/serviceTrip?useUnicode=yes&characterEncoding=utf8"
 user: serviceTrip
 password: serviceTrip
+
+
+# once you have localhost/phpmyadmin working
+# you have to create the user serviceTrip with the password serviceTrip
+# and create the database serviceTrip
+
+# you will also have to create the jdbc connection in the payara server to connect to the database
+# create a connection pool and then add to jdbc Resources
+
+# Add connection pool
+# ResourceType: javax.sql.DataSource
+# Database Driver Vendor: MySql
+# on additional properties add in user, password, databaseName, serverName
+
+# Add to the JDBC Resources
+# JndiName: jdbc/serviceTrip
+# select the created connection pool
