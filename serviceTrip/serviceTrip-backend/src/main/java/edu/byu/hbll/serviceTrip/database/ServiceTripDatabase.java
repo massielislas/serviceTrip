@@ -74,8 +74,9 @@ public class ServiceTripDatabase
     for (Map<String, Object> result : results) {
       return new Event((Integer) result.get("NumberEnrolled"), (Integer) result.get("Cost"), (String) result.get("Place"), (String) result.get("StartDate"),
           (String) result.get("EndDate"), (String) result.get("EventDescription"));
-
     }
+
+    return null;
 
   }
 
