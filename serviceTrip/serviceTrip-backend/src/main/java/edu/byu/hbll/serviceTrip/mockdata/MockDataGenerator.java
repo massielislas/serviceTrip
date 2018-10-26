@@ -80,6 +80,14 @@ public class MockDataGenerator {
     tags.add("nearResorts");
     tags.add("nearBeaches");
     tags.add("multicultural");
+
+    locations.add("San Francisco, CA");
+    locations.add("Seattle, WA");
+    locations.add("Colima, Mexico");
+    locations.add("Jinja, Uganda");
+    locations.add("Meridian, Idaho");
+    locations.add("Kampala, Uganda");
+    locations.add("Valencia, Spain");
   }
 
   public String getRandomOrganizationName(){
@@ -99,16 +107,26 @@ public class MockDataGenerator {
   }
 
   /*
-    Dates are generated in the next 5 years
+    A start and an end date are generated and returned in an array of entries 1 and 2
    */
-  public Date getRandomFutureDate(){
+  public String[] getRandomFutureDates(){
+    String[] dates = new String[2];
     int year = random.nextInt(4) + 2018;
-    int month = random.nextInt(10);
+    int month = random.nextInt(12);
     int day = random.nextInt(28);
 
     long dateInMilliseconds = getDayInMilliseconds(day) + getDayInMilliseconds(month) + getYearInMilliseconds(year);
 
-    return new Date(dateInMilliseconds);
+    int year2 = year + 1;
+    int month2 = random.nextInt(12);
+    int day2 = random.nextInt(28);
+
+    long dateInMilliseconds2 = getDayInMilliseconds(day2) + getDayInMilliseconds(month2) + getYearInMilliseconds(year2);
+
+    dates[0] = new Date(dateInMilliseconds).toString();
+    dates[1] = new Date(dateInMilliseconds2).toString();
+
+    return dates;
   }
 
   private long getDayInMilliseconds(int day){
@@ -135,6 +153,10 @@ public class MockDataGenerator {
 
   public int getRandomNumberEnrolled(){
     return random.nextInt(20) + 20;
+  }
+
+  public String getRandomLocation(){
+    return locations.get(random.nextInt(locations.size() - 1));
   }
 
 

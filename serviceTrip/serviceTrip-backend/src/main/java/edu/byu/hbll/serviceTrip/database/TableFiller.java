@@ -14,12 +14,14 @@ import org.apache.commons.dbutils.QueryRunner;
 
 public class TableFiller {
 
+  MockDataGenerator mockDataGenerator;
+
   @Inject
-  Servi
+  ServiceTripDatabase db;
 
   @PostConstruct
   public void init() {
-
+    mockDataGenerator = new MockDataGenerator();
   }
 
   /*
@@ -27,18 +29,24 @@ public class TableFiller {
       Loads 5 events for each organization
         Each event will have 3 tags
    */
-  public void fillTables(){
+  public void fillTables() throws SQLException{
     for (int i = 0; i < 5; i++){
       String organizationName = mockDataGenerator.getRandomOrganizationName();
+
       for(int j = 0; j < 5; j++){
         UUID eventID = UUID.randomUUID();
         String eventName = mockDataGenerator.getRandomEventName();
         String eventDescription = mockDataGenerator.getRandomEventDescription();
-        runner.update
+        int numEnrolled = mockDataGenerator.getRandomNumberEnrolled();
         int cost = mockDataGenerator.getRandomCost();
-        int numberEnrolled = mockDataGenerator.getRandomNumberEnrolled();
+        String location = mockDataGenerator.getRandomLocation();
+        String[] dates = mockDataGenerator.getRandomFutureDates();
+        db.insertEventInformation(eventID.toString(),eventName, organizationName);
+        db.insertMedia(eventID.toString(), eventDescription);
+        db.insertSpecification(eventID.toString(), numEnrolled + "",  cost+ "", location, dates[1], dates[2]);
         for(int k = 0; k < 3; k++){
           String tag = mockDataGenerator.getRandomTag();
+          db.insertTag(eventID.toString(), tag);
         }
       }
     }
