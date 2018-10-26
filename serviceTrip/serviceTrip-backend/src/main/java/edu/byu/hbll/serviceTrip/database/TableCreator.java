@@ -18,6 +18,7 @@ public class TableCreator {
 
   BasicDataSource ds;
   QueryRunner runner;
+  TableFiller tableFiller;
 
   @PostConstruct
   public void init() {
@@ -25,6 +26,14 @@ public class TableCreator {
     runner = new QueryRunner(ds);
 
     createTables();
+    tableFiller = new TableFiller();
+
+    try{
+      tableFiller.fillTables();
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+
   }
 
   public void createTables() {
