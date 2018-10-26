@@ -22,7 +22,7 @@ public class EventAPI {
   @Inject
   private ServiceTripDatabase db;
 
-  prive ObjectMapper mapper = new ObjectMapper();
+  private ObjectMapper mapper = new ObjectMapper();
   /*
     For now, we will allow the user to select an event based on a tag and a cost
    */

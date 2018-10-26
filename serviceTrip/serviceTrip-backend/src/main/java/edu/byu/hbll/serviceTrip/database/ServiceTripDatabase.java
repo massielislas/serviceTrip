@@ -61,16 +61,14 @@ public class ServiceTripDatabase
 
   }
 
-  public Event selectEvent(String cost, String tag){
+  public Event selectEvent(String tag, String cost){
     String sql = "SELECT c.* FROM EventInformation i"
         + "JOIN Media m ON (c.EventId = i.EventId)"
         + "LEFT JOIN Tag t on (t.EventId = i.EventId)"
         + "LEFT JOIN Specifications s ON (s.EventID = t.EventID"
-        + "WHERE t.Tag=?";
+        + "WHERE t.Tag=? AND s.Cost > ?";
 
     Map<String, Object> results = runner.query(sql, new MapHandler(), userId);
-    //    public Event(Integer numberEnrolled, Integer cost, String place, String startDate, String endDate,
-    //        String eventDescription) {
     for (Map<String, Object> result : results) {
       return new Event((Integer) result.get("NumberEnrolled"), (Integer) result.get("Cost"), (String) result.get("Place"), (String) result.get("StartDate"),
           (String) result.get("EndDate"), (String) result.get("EventDescription"));
