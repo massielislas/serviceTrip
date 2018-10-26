@@ -11,6 +11,7 @@ import org.apache.commons.dbutils.QueryRunner;
 
 @Startup
 @Singleton
+@SuppressWarnings("CheckStyle")
 public class TableCreator {
 
   @Inject

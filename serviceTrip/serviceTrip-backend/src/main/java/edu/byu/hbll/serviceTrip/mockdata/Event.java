@@ -8,11 +8,21 @@ public class Event {
     ArrayList<String> tags = new ArrayList<>();
 
     //Specifications table
-    int numberEnrolled;
-    int cost;
+    Integer numberEnrolled;
+    Integer cost;
     String place;
-    Date startDate;
-    Date endDate;
+    String startDate;
+    String endDate;
     String eventDescription;
+
+    public Event(Integer numberEnrolled, Integer cost, String place, String startDate, String endDate,
+        String eventDescription) {
+        this.numberEnrolled = numberEnrolled;
+        this.cost = cost;
+        this.place = place;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.eventDescription = eventDescription;
+    }
 
 }

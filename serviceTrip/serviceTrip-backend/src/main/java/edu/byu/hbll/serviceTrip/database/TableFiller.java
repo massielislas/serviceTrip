@@ -12,6 +12,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 
 
+@SuppressWarnings("CheckStyle")
 public class TableFiller {
 
   MockDataGenerator mockDataGenerator;
