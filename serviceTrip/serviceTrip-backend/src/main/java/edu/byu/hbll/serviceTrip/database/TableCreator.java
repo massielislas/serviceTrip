@@ -11,15 +11,17 @@ import org.apache.commons.dbutils.QueryRunner;
 
 @Startup
 @Singleton
-@SuppressWarnings("CheckStyle")
+//@SuppressWarnings("CheckStyle")
 public class TableCreator {
 
   @Inject
   Configuration configuration;
 
+  @Inject
+  TableFiller tableFiller;
+
   BasicDataSource ds;
   QueryRunner runner;
-  TableFiller tableFiller;
 
   @PostConstruct
   public void init() {
@@ -27,7 +29,6 @@ public class TableCreator {
     runner = new QueryRunner(ds);
 
     createTables();
-    tableFiller = new TableFiller();
 
     try{
       tableFiller.fillTables();
@@ -40,23 +41,23 @@ public class TableCreator {
   public void createTables() {
     try {
       runner.update("CREATE TABLE IF NOT EXISTS `EventInformation` ("
-          + "`EventId` VARCHAR(20) NOT NULL PRIMARY KEY,"
+          + "`EventId` VARCHAR(150) NOT NULL PRIMARY KEY,"
           + "`EventName` VARCHAR(50) DEFAULT NULL,"
           + "`Organization` VARCHAR(50) DEFAULT NULL )");
       runner.update("CREATE TABLE IF NOT EXISTS `Media` ("
-          + "`EventId` VARCHAR(20) NOT NULL PRIMARY KEY,"
-          + "`EventDescription` VARCHAR(50) DEFAULT NULL,"
+          + "`EventId` VARCHAR(150) NOT NULL PRIMARY KEY,"
+          + "`EventDescription` VARCHAR(2500) DEFAULT NULL,"
           + "`EventPicture` BLOB DEFAULT NULL )");
       runner.update("CREATE TABLE IF NOT EXISTS `Tag` ("
-          + "`EventId` VARCHAR(20) NOT NULL PRIMARY KEY,"
-          + "`Tag` VARCHAR(20) DEFAULT NULL )");
+          + "`EventId` VARCHAR(150) NOT NULL,"
+          + "`Tag` VARCHAR(50) DEFAULT NULL )");
       runner.update("CREATE TABLE IF NOT EXISTS `Specifications` ("
-          + "`EventId` VARCHAR(20) NOT NULL PRIMARY KEY,"
+          + "`EventId` VARCHAR(150) NOT NULL PRIMARY KEY,"
           + "`NumberEnrolled` INT DEFAULT NULL,"
           + "`Cost` DECIMAL(10,2) DEFAULT NULL,"
           + "`Place` VARCHAR(50) DEFAULT NULL,"
-          + "`StartDate` VARCHAR(50) DEFAULT NULL,"
-          + "`EndDate` VARCHAR(50) DEFAULT NULL )");
+          + "`StartDate` DATE DEFAULT NULL,"
+          + "`EndDate` DATE DEFAULT NULL )");
     } catch (SQLException e) {
       e.printStackTrace();
     }

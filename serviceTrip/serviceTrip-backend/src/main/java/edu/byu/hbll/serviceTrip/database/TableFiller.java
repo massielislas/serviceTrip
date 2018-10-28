@@ -7,12 +7,13 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 
-
-@SuppressWarnings("CheckStyle")
+@Stateless
+//@SuppressWarnings("CheckStyle")
 public class TableFiller {
 
   MockDataGenerator mockDataGenerator;
@@ -44,7 +45,8 @@ public class TableFiller {
         String[] dates = mockDataGenerator.getRandomFutureDates();
         db.insertEventInformation(eventID.toString(),eventName, organizationName);
         db.insertMedia(eventID.toString(), eventDescription);
-        db.insertSpecification(eventID.toString(), numEnrolled + "",  cost+ "", location, dates[1], dates[2]);
+        db.insertSpecification(eventID.toString(), numEnrolled + "",  cost+ "", location,
+            dates[0], dates[1]);
         for(int k = 0; k < 3; k++){
           String tag = mockDataGenerator.getRandomTag();
           db.insertTag(eventID.toString(), tag);

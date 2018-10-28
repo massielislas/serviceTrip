@@ -126,6 +126,8 @@ public class MockDataGenerator {
     dates[0] = new Date(dateInMilliseconds).toString();
     dates[1] = new Date(dateInMilliseconds2).toString();
 
+    System.out.println("DATE FORMAT: " + dates[0]);
+
     return dates;
   }
 
