@@ -32,10 +32,10 @@ public class EventAPI {
       @DefaultValue("") @QueryParam("tag") String tag,
       @DefaultValue("") @QueryParam("cost") String cost){
 
-    List<Event> events = null;
+    List<JsonNode> events = null;
     try {
       events = db.selectEvent(tag, cost);
-    } catch (SQLException e) {
+    } catch (Exception e) {
       e.printStackTrace();
 
       return Response.ok().entity("{\"error\":\"something went wrong\"}").build();
@@ -43,7 +43,6 @@ public class EventAPI {
 
     JsonNode response = mapper.valueToTree(events);
     System.out.println(response.toString());
-    System.out.println(mapper.convertValue(events, JsonNode.class));
 
 
     return Response.ok().entity(response.toString()).build();

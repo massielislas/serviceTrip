@@ -111,17 +111,20 @@ public class MockDataGenerator {
    */
   public String[] getRandomFutureDates(){
     String[] dates = new String[2];
-    int year = random.nextInt(4) + 2018;
+    int year = random.nextInt(4) + 2018 - 1970;
     int month = random.nextInt(12);
     int day = random.nextInt(28);
 
-    long dateInMilliseconds = getDayInMilliseconds(day) + getDayInMilliseconds(month) + getYearInMilliseconds(year);
+    long lday = getDayInMilliseconds(day);
+    long lm = getMonthInMilliseconds(month);
+    long ly = getYearInMilliseconds(year);
+    long dateInMilliseconds = getDayInMilliseconds(day) + getMonthInMilliseconds(month) + getYearInMilliseconds(year);
 
     int year2 = year + 1;
     int month2 = random.nextInt(12);
     int day2 = random.nextInt(28);
 
-    long dateInMilliseconds2 = getDayInMilliseconds(day2) + getDayInMilliseconds(month2) + getYearInMilliseconds(year2);
+    long dateInMilliseconds2 = getDayInMilliseconds(day2) + getMonthInMilliseconds(month2) + getYearInMilliseconds(year2);
 
     dates[0] = new Date(dateInMilliseconds).toString();
     dates[1] = new Date(dateInMilliseconds2).toString();
@@ -133,12 +136,12 @@ public class MockDataGenerator {
 
   private long getDayInMilliseconds(int day){
     // 24 hours in a day, 60 minutes in an hour, 60000 milliseconds in minute
-    return  day * 24 * 60 * 60;
+    return  (long)day * 24 * 60 * 60000;
   }
 
   private long getMonthInMilliseconds(int month){
     // 28 days in a month, 24 hours in a day, 60 minutes in an hour, 60000 milliseconds in minute
-    return month * 28 * 24 * 60 * 60;
+    return (long)month * 30 * 24 * 60 * 60000;
   }
 
   /*
@@ -146,7 +149,7 @@ public class MockDataGenerator {
    */
   private long getYearInMilliseconds(int year){
     // 12 months in a year, 28 days in a month, 24 hours in a day, 60 minutes in an hour, 60000 milliseconds in minute
-    return year * 12 * 28 * 24 * 60 * 60000;
+    return (long)year * 12 * 30 * 24 * 60 * 60000;
   }
 
   public int getRandomCost(){

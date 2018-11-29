@@ -1,6 +1,10 @@
 package edu.byu.hbll.serviceTrip;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.CreateCollectionOptions;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import edu.byu.hbll.json.YamlLoader;
 import java.io.File;
@@ -35,7 +39,7 @@ public class Configuration {
 
   // TODO: Define additional class properties/members as needed here.
 
-  private BasicDataSource ds;
+  private MongoDatabase db;
 
   /**
    * Loads configuration data read from the config file(s) listed in the {@link #CONFIGS_PROPERTY}
@@ -83,20 +87,24 @@ public class Configuration {
     String password = config.path("password").asText();
     String url = config.path("url").asText();
 
-    ds = new BasicDataSource();
-    ds.setDriverClassName("com.mysql.jdbc.Driver");
-    ds.setUrl(url);
-    ds.setUsername(user);
-    ds.setPassword(password);
+//    ds = new BasicDataSource();
+//    ds.setDriverClassName("com.mysql.jdbc.Driver");
+//    ds.setUrl(url);
+//    ds.setUsername(user);
+//    ds.setPassword(password);
 
+
+    MongoClient client = new MongoClient(new MongoClientURI("mongodb://localhost"));
+    db = client.getDatabase("serviceTrip");
+    db.createCollection("Events", new CreateCollectionOptions().capped(false));
     /*TODO: After creating a new project, add the application-specific instructions to this method needed to
     process your config data and make it available to the rest of your application. You should not need to
     modify the postConstruct() method, which simply calls this method using the config files listed in the
     system property identified by CONFIGS_PROPERTY.*/
   }
 
-  public BasicDataSource getDs(){
-    return ds;
+  public MongoDatabase getDb(){
+    return db;
   }
 
 }

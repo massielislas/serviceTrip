@@ -4,10 +4,13 @@ import edu.byu.hbll.serviceTrip.mockdata.Event;
 import edu.byu.hbll.serviceTrip.mockdata.MockDataGenerator;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+
 
 @Stateless
 //@SuppressWarnings("CheckStyle")
