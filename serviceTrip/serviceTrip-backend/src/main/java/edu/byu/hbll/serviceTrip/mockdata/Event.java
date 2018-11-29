@@ -1,7 +1,6 @@
 package edu.byu.hbll.serviceTrip.mockdata;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 
 public class Event {
@@ -29,6 +28,19 @@ public class Event {
         this.eventDescription = eventDescription;
         this.organization = organization;
         this.eventName = eventName;
+    }
+
+    public Event(Integer numberEnrolled, BigDecimal cost, String place, String startDate, String endDate, String eventDescription, String organization, String eventName,
+                 ArrayList<String> tags){
+        this.numberEnrolled = numberEnrolled;
+        this.cost = cost;
+        this.place = place;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.eventDescription = eventDescription;
+        this.organization = organization;
+        this.eventName = eventName;
+        this.tags = tags;
     }
 
     public ArrayList<String> getTags() {

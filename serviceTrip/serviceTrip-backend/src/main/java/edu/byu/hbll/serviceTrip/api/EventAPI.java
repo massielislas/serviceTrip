@@ -1,22 +1,19 @@
 package edu.byu.hbll.serviceTrip.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.byu.hbll.serviceTrip.database.ServiceTripDatabase;
 import edu.byu.hbll.serviceTrip.mockdata.Event;
 
-import java.sql.SQLException;
-import java.util.List;
-import java.util.UUID;
 import javax.inject.Inject;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Path("")
 public class EventAPI {
@@ -67,15 +64,13 @@ public class EventAPI {
       @DefaultValue("") @QueryParam("eventDescription") String eventDescription){
 
     UUID eventID = UUID.randomUUID();
-    try {
-      db.insertEventInformation(eventID.toString(),eventName, organization);
-      db.insertMedia(eventID.toString(), eventDescription);
-      db.insertSpecification(eventID.toString(), numEnrolled, cost, place,
-          startDate, endDate);
-      db.insertTag(eventID.toString(), tag);
-    } catch (SQLException e) {
-      return Response.ok().entity("{\"message\":\"Something went wrong\"}").build();
-    }
+    //Integer numberEnrolled, BigDecimal cost, String place, String startDate, String endDate, String eventDescription, String organization, String eventName,
+    ArrayList tags = new ArrayList<String>();
+    tags.add(tag);
+    Integer numberEnrolled = Integer.valueOf(numEnrolled);
+    Event event = new Event(numberEnrolled, new BigDecimal(cost), place, startDate, endDate, eventDescription, organization, eventName, tags);
+    db.insertEvent(event);
+
     return Response.ok().entity("{\"message\":\"Adding Event "+eventID.toString() +  " was "
         + "Successful!\"}").build();
   }

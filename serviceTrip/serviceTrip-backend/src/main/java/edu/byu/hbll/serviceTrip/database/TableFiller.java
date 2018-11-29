@@ -1,16 +1,13 @@
 package edu.byu.hbll.serviceTrip.database;
 
-import edu.byu.hbll.serviceTrip.Configuration;
+import edu.byu.hbll.serviceTrip.mockdata.Event;
 import edu.byu.hbll.serviceTrip.mockdata.MockDataGenerator;
-import java.sql.SQLException;
-import java.util.UUID;
+
 import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.commons.dbutils.QueryRunner;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 
 @Stateless
 //@SuppressWarnings("CheckStyle")
@@ -31,26 +28,26 @@ public class TableFiller {
       Loads 5 events for each organization
         Each event will have 3 tags
    */
-  public void fillTables() throws SQLException{
+  public void fillTables(){
     for (int i = 0; i < 5; i++){
       String organizationName = mockDataGenerator.getRandomOrganizationName();
 
       for(int j = 0; j < 5; j++){
-        UUID eventID = UUID.randomUUID();
+        //UUID eventID = UUID.randomUUID();
         String eventName = mockDataGenerator.getRandomEventName();
         String eventDescription = mockDataGenerator.getRandomEventDescription();
         int numEnrolled = mockDataGenerator.getRandomNumberEnrolled();
         int cost = mockDataGenerator.getRandomCost();
         String location = mockDataGenerator.getRandomLocation();
         String[] dates = mockDataGenerator.getRandomFutureDates();
-        db.insertEventInformation(eventID.toString(),eventName, organizationName);
-        db.insertMedia(eventID.toString(), eventDescription);
-        db.insertSpecification(eventID.toString(), numEnrolled + "",  cost+ "", location,
-            dates[0], dates[1]);
+        ArrayList<String>tags = new ArrayList<>();
         for(int k = 0; k < 3; k++){
           String tag = mockDataGenerator.getRandomTag();
-          db.insertTag(eventID.toString(), tag);
+          tags.add(tag);
         }
+        //Integer numberEnrolled, BigDecimal cost, String place, String startDate, String endDate, String eventDescription, String organization, String eventName,
+        Event event = new Event(numEnrolled, new BigDecimal(cost), location, dates[0], dates[1], eventDescription, organizationName, eventName, tags);
+        db.insertEvent(event);
       }
     }
   }
