@@ -51,9 +51,14 @@ public class ServiceTripDatabase
 SELECT * FROM EventInformation i JOIN Media m ON (m.EventId = i.EventId) LEFT JOIN Tag t on (t.EventId = i.EventId) LEFT JOIN Specifications s ON (s.EventID = t.EventId)
  */
   public List<JsonNode> selectEvent(String tag, String cost) throws Exception {
-    BasicDBObject costFilter = new BasicDBObject("cost", new BasicDBObject("$lt", Integer.valueOf
-        (cost)));
-    FindIterable<Document> docs = configuration.getDb().getCollection("Events").find(costFilter);
+    BasicDBObject filters = new BasicDBObject();
+    filters.append("cost", new BasicDBObject("$lt", Integer.valueOf(cost)));
+
+    if(tag != null && !tag.isEmpty() && !tag.equals("undefined")){
+      filters.append("tags", tag);
+    }
+
+    FindIterable<Document> docs = configuration.getDb().getCollection("Events").find(filters);
     ObjectMapper objectMapper = new ObjectMapper();
     List<JsonNode> events = new ArrayList<>();
     for(Document doc: docs){
